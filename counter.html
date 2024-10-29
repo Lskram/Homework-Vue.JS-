@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>นับเลขสวยๆ</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Kanit', 'Arial', sans-serif;
+        }
+
+        .card {
+            width: 22rem;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #4e73df, #2e59d9);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4e73df, #2e59d9);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            margin-left: 10px;
+        }
+
+        .display-4 {
+            color: #4e73df;
+            font-weight: 700;
+            font-size: 4.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-text {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin: 1.5rem 0;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #4e73df, #2e59d9);
+        }
+
+        .animate-number {
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="card mx-auto">
+            <div class="card-header">
+                <h5 class="card-title">นับเลขมหาสนุก</h5>
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">
+                    กดปุ่มด้านล่างเพื่อเพิ่มหรือลดจำนวน
+                </p>
+                <p class="display-4" :class="{ 'animate-number': isAnimating }">{{ count }}</p>
+                <div class="d-flex justify-content-center gap-2 mb-3">
+                    <button class="btn btn-primary" @click="increment">
+                        เพิ่ม
+                    </button>
+                    <button class="btn btn-secondary" @click="decrement">
+                        ลด
+                    </button>
+                </div>
+                <span class="badge bg-primary">จำนวนครั้งที่กด: {{ totalClicks }}</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const count = ref(0);
+                const totalClicks = ref(0);
+                const isAnimating = ref(false);
+
+                const animate = () => {
+                    isAnimating.value = true;
+                    setTimeout(() => {
+                        isAnimating.value = false;
+                    }, 500);
+                };
+
+                const increment = () => {
+                    count.value++;
+                    totalClicks.value++;
+                    animate();
+                };
+
+                const decrement = () => {
+                    count.value--;
+                    totalClicks.value++;
+                    animate();
+                };
+
+                return {
+                    count,
+                    totalClicks,
+                    isAnimating,
+                    increment,
+                    decrement
+                };
+            },
+        }).mount("#app");
+    </script>
+</body>
+</html>
